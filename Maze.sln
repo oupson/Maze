@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeTest", "MazeTest\MazeTest.csproj", "{1BAE5E16-4064-48EF-9645-2FB84EB99F0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeTest", "MazeTest\MazeTest.csproj", "{1BAE5E16-4064-48EF-9645-2FB84EB99F0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeLib", "MazeLib\MazeLib.csproj", "{8739DD21-9BF6-4800-A9E5-45AEA41C1E2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeLib", "MazeLib\MazeLib.csproj", "{8739DD21-9BF6-4800-A9E5-45AEA41C1E2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

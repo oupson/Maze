@@ -71,6 +71,7 @@ namespace MazeLib
         {
             this.Maze = maze;
             this.CurrentCell = startingCell;
+            this.MovementCount = 0;
         }
     }
 }

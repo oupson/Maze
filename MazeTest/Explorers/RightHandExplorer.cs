@@ -1,10 +1,9 @@
 ﻿using MazeLib;
-using Newtonsoft.Json;
 using System.Drawing;
 
-namespace MazeTest
+namespace MazeTest.Explorers
 {
-    class LeftHandExplorer : IExplorer
+    class RightHandExplorer : IExplorer
     {
         public Cell CurrentCell { get; set; }
         public int MovementCount { get; set; }
@@ -17,16 +16,16 @@ namespace MazeTest
          *      0
          *  90      270
          *      180
-         * Return true if there is a left wall. It depend of the rotation
+         * Return true if there is a right wall. It depend of the rotation.
          */
-        private bool HasLeftWall()
+        private bool HasRightWall()
         {
             return CurrentOrientation switch
             {
-                0 => CurrentCell.HasLeftWall,
-                90 => CurrentCell.HasBottomWall,
-                180 => CurrentCell.HasRightWall,
-                270 => CurrentCell.HasTopWall,
+                0 => CurrentCell.HasRightWall,
+                90 => CurrentCell.HasTopWall,
+                180 => CurrentCell.HasLeftWall,
+                270 => CurrentCell.HasBottomWall,
                 // UNREACHABLE
                 _ => false,
             };
@@ -69,7 +68,7 @@ namespace MazeTest
 
         private bool MustGoForward = false;
         public void Explore()
-        { 
+        {
             if (MustGoForward)
             {
                 MoveForward(Maze);
@@ -78,15 +77,11 @@ namespace MazeTest
                 return;
             }
 
-            if (HasLeftWall())
+            if (HasRightWall())
             {
-                if(CantGoForward())
+                if (CantGoForward())
                 {
-                    CurrentOrientation = (CurrentOrientation - 90) % 360;
-                    if (CurrentOrientation < 0)
-                    {
-                        CurrentOrientation += 360;
-                    }
+                    CurrentOrientation = (CurrentOrientation + 90) % 360;
                     MovementCount += 1;
                     return;
                 }
@@ -94,7 +89,11 @@ namespace MazeTest
             }
             else
             {
-                CurrentOrientation = (CurrentOrientation + 90) % 360;
+                CurrentOrientation = (CurrentOrientation - 90) % 360;
+                if (CurrentOrientation < 0)
+                {
+                    CurrentOrientation += 360;
+                }
                 MustGoForward = true;
             }
 
@@ -125,6 +124,14 @@ namespace MazeTest
                 );
             }
             graphics.DrawImage(explorer, CurrentCell.Column * Maze.CellFactorDrawing, CurrentCell.Row * Maze.CellFactorDrawing);
+        }
+
+        public void Setup(Maze maze, Cell startingCell)
+        {
+            this.Maze = maze;
+            this.CurrentCell = startingCell;
+            this.MovementCount = 0;
+            this.CurrentOrientation = 0;
         }
     }
 }

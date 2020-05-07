@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MazeTest": {
+      "commandName": "Project",
+      "commandLineArgs": "stats 1"
+    }
+  }
+}

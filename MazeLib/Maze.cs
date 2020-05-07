@@ -26,14 +26,21 @@ namespace MazeLib
             }
         }
 
+        public void FullExplore()
+        {
+            Setup();
+            var iter = 0;
+            while (NotFullyExplored() && HasNotTimedOut(iter++))
+            {
+                Console.Write("\r[{0}:{1}]", iter, ExploreTimeout);
+                ExploreWithoutDrawing();
+            }
+            Console.WriteLine();
+        }
+
         public void FullExplore(string filename, int delay = 500)
         {
-            if (Explorers.Count == 0)
-                throw new Exception("Error : Need at least 1 explorer");
-            foreach (var ex in Explorers)
-            {
-                ex.Setup(this, cells[0][0]);
-            }
+            Setup();
             var gifWritter = new GifWriter(filename, delay, 0);
             var iter = 0;
             while(NotFullyExplored() && HasNotTimedOut(iter++))
@@ -42,6 +49,17 @@ namespace MazeLib
                 gifWritter.WriteFrame(Explore());
             }
             gifWritter.Dispose();
+            Console.WriteLine();
+        }
+
+        public void Setup()
+        {
+            if (Explorers.Count == 0)
+                throw new Exception("Error : Need at least 1 explorer");
+            foreach (var ex in Explorers)
+            {
+                ex.Setup(this, cells[0][0]);
+            }
         }
 
         public Bitmap Explore()
@@ -59,6 +77,17 @@ namespace MazeLib
                 }
             }
             return btm;
+        }
+
+        public void ExploreWithoutDrawing()
+        {
+            foreach (var ex in Explorers)
+            {
+                if (!ex.Arrived())
+                {
+                    ex.Explore();
+                }
+            }
         }
 
         private bool HasNotTimedOut(int iter)
