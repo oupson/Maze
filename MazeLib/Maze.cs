@@ -11,7 +11,7 @@ namespace MazeLib
         public Cell[][] cells;
         public int CellFactorDrawing = 10;
 
-        public int ExploreTimeout = 1_000;
+        public int ExploreTimeout = 100_000;
 
         public List<IExplorer> Explorers = new List<IExplorer>();
 
@@ -26,13 +26,17 @@ namespace MazeLib
             }
         }
 
-        public void FullExplore(string filename)
+        public void FullExplore(string filename, int delay = 500)
         {
             if (Explorers.Count == 0)
-                throw new System.Exception("Error : Need at least 1 explorer");
-            var gifWritter = new GifWriter(filename, 100, 0);
+                throw new Exception("Error : Need at least 1 explorer");
+            foreach (var ex in Explorers)
+            {
+                ex.Setup(this, cells[0][0]);
+            }
+            var gifWritter = new GifWriter(filename, delay, 0);
             var iter = 0;
-            while(NotFullyExplored() && iter++ < ExploreTimeout)
+            while(NotFullyExplored() && HasNotTimedOut(iter++))
             {
                 Console.Write("\r[{0}:{1}]", iter, ExploreTimeout);
                 gifWritter.WriteFrame(Explore());
@@ -49,12 +53,17 @@ namespace MazeLib
                 {
                     if (!ex.Arrived())
                     {
-                        ex.Explore(this);
+                        ex.Explore();
                     }
-                    ex.RenderPath(this, graphics);
+                    ex.RenderPath(graphics);
                 }
             }
             return btm;
+        }
+
+        private bool HasNotTimedOut(int iter)
+        {
+            return (ExploreTimeout == -1) || (iter < ExploreTimeout);
         }
 
         private bool NotFullyExplored()

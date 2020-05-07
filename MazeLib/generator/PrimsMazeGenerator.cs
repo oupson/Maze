@@ -1,9 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 
 namespace MazeLib.generator
@@ -17,7 +14,14 @@ namespace MazeLib.generator
 
         public PrimsMazeGenerator(int width, int height)
         {
-            random = new Random(DateTime.Now.Millisecond);
+#if DEBUG
+            var seed = new DateTimeOffset(DateTime.Now).ToUnixTimeMilliseconds().GetHashCode();
+            Console.WriteLine("Seed is : {0}", seed);
+            random = new Random(seed);
+#else
+            random = new Random();
+#endif
+
             Width = width;
             Height = height;
         }

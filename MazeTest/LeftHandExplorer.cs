@@ -1,10 +1,6 @@
 ﻿using MazeLib;
-using MazeLib.generator;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace MazeTest
 {
@@ -12,22 +8,16 @@ namespace MazeTest
     {
         public Cell CurrentCell { get; set; }
         public int MovementCount { get; set; }
-        private bool isArrived = false;
-        [JsonIgnore]
-        public Pen color;
+        public Pen ColorPen { get; set; }
+        public Maze Maze { get; set; }
 
         private int CurrentOrientation = 0;
-
-        public bool Arrived()
-        {
-            return isArrived;
-        }
-
 
         /**
          *      0
          *  90      270
          *      180
+         * Return true if there is a left wall. It depend of the rotation
          */
         private bool HasLeftWall()
         {
@@ -42,6 +32,12 @@ namespace MazeTest
             };
         }
 
+        /**
+         *      0
+         *  90      270
+         *      180
+         * Return true if there is a wall in front of the robot.
+         */
         private bool CantGoForward()
         {
             return CurrentOrientation switch
@@ -72,16 +68,11 @@ namespace MazeTest
         }
 
         private bool MustGoForward = false;
-        public void Explore(Maze maze)
-        {
-            if (CurrentCell == null)
-            {
-                CurrentCell = maze.cells[0][0];
-            }
-
+        public void Explore()
+        { 
             if (MustGoForward)
             {
-                MoveForward(maze);
+                MoveForward(Maze);
                 MustGoForward = false;
                 MovementCount += 1;
                 return;
@@ -99,7 +90,7 @@ namespace MazeTest
                     MovementCount += 1;
                     return;
                 }
-                MoveForward(maze);
+                MoveForward(Maze);
             }
             else
             {
@@ -108,34 +99,32 @@ namespace MazeTest
             }
 
             MovementCount += 1;
-
-            isArrived = CurrentCell.Column == maze.Width - 1 && CurrentCell.Row == maze.Height - 1;
         }
 
-        public void RenderPath(Maze maze, Graphics graphics)
+        public void RenderPath(Graphics graphics)
         {
-            var explorer = new Bitmap(maze.CellFactorDrawing, maze.CellFactorDrawing);
+            var explorer = new Bitmap(Maze.CellFactorDrawing, Maze.CellFactorDrawing);
             using (var gr = Graphics.FromImage(explorer))
             {
-                gr.TranslateTransform(maze.CellFactorDrawing / 2, maze.CellFactorDrawing / 2);
+                gr.TranslateTransform(Maze.CellFactorDrawing / 2, Maze.CellFactorDrawing / 2);
                 gr.RotateTransform(-CurrentOrientation);
-                gr.TranslateTransform(-maze.CellFactorDrawing / 2, -maze.CellFactorDrawing / 2);
+                gr.TranslateTransform(-Maze.CellFactorDrawing / 2, -Maze.CellFactorDrawing / 2);
                 gr.DrawRectangle(
-                    color,
-                    0,
-                    0,
-                    maze.CellFactorDrawing - 1,
-                    maze.CellFactorDrawing - 1
+                    ColorPen ?? Pens.Red,
+                    Maze.CellFactorDrawing / 10,
+                    Maze.CellFactorDrawing / 10,
+                    Maze.CellFactorDrawing - Maze.CellFactorDrawing / 5,
+                    Maze.CellFactorDrawing - Maze.CellFactorDrawing / 5
                 );
                 gr.DrawLine(
-                    color,
-                    maze.CellFactorDrawing / 2,
-                    0,
-                    maze.CellFactorDrawing / 2,
-                    maze.CellFactorDrawing / 2
+                    ColorPen ?? Pens.Red,
+                    Maze.CellFactorDrawing / 2,
+                    Maze.CellFactorDrawing / 10,
+                    Maze.CellFactorDrawing / 2,
+                    Maze.CellFactorDrawing / 2
                 );
             }
-            graphics.DrawImage(explorer, CurrentCell.Column * maze.CellFactorDrawing, CurrentCell.Row * maze.CellFactorDrawing);
+            graphics.DrawImage(explorer, CurrentCell.Column * Maze.CellFactorDrawing, CurrentCell.Row * Maze.CellFactorDrawing);
         }
     }
 }
