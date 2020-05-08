@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 
+
+// TODO ONLY DRAW MAZE THE FIRST TIME
 namespace MazeLib
 {
     public class Maze
@@ -63,6 +65,19 @@ namespace MazeLib
             }
         }
 
+        public Bitmap RenderCurrent()
+        {
+            var btm = GenerateBitmap();
+            using (var graphics = Graphics.FromImage(btm))
+            {
+                foreach (var ex in Explorers)
+                {
+                    ex.RenderPath(graphics);
+                }
+            }
+            return btm;
+        }
+
         public Bitmap Explore()
         {
             var btm = GenerateBitmap();
@@ -96,7 +111,7 @@ namespace MazeLib
             return (ExploreTimeout == -1) || (iter < ExploreTimeout);
         }
 
-        private bool NotFullyExplored()
+        public bool NotFullyExplored()
         {
             var res = false;
             foreach (IExplorer ex in Explorers)
@@ -106,34 +121,38 @@ namespace MazeLib
             return res;
         }
 
+        private Bitmap _mazeBitmap = null;
         public Bitmap GenerateBitmap()
         {
-            var bitmap = new Bitmap(Width * CellSize, Height * CellSize);
-
-            using (var graphics = Graphics.FromImage(bitmap))
+            if (_mazeBitmap == null)
             {
-                graphics.Clear(Color.White);
-                graphics.DrawLine(Pens.Black, 0, 0, Width * CellSize, 0);
-                graphics.DrawLine(Pens.Black, 0, 0, 0, Height * CellSize);
-                for (int y = 0; y < Height; y ++)
-                {
-                    for (int x = 0; x < Width; x++)
-                    {
-                        if (cells[y][x].HasBottomWall)
-                        {
-                            graphics.DrawLine(Pens.Black, x * CellSize, y * CellSize + CellSize, x * CellSize + CellSize, y * CellSize + CellSize);
-                        }
-                        if (cells[y][x].HasRightWall)
-                        {
-                            graphics.DrawLine(Pens.Black, x * CellSize + CellSize, y * CellSize, x * CellSize + CellSize, y * CellSize + CellSize);
-                        }
-                    }
+                _mazeBitmap = new Bitmap(Width * CellSize, Height * CellSize);
 
+                using (var graphics = Graphics.FromImage(_mazeBitmap))
+                {
+                    graphics.Clear(Color.White);
+                    graphics.DrawLine(Pens.Black, 0, 0, Width * CellSize, 0);
+                    graphics.DrawLine(Pens.Black, 0, 0, 0, Height * CellSize);
+                    graphics.DrawLine(Pens.Black, 0, Height * CellSize - 1, Width * CellSize, Height * CellSize - 1);
+                    graphics.DrawLine(Pens.Black, Width * CellSize - 1, 0, Width * CellSize - 1, Height * CellSize);
+                    for (int y = 0; y < Height; y++)
+                    {
+                        for (int x = 0; x < Width; x++)
+                        {
+                            if (cells[y][x].HasBottomWall)
+                            {
+                                graphics.DrawLine(Pens.Black, x * CellSize, y * CellSize + CellSize, x * CellSize + CellSize, y * CellSize + CellSize);
+                            }
+                            if (cells[y][x].HasRightWall)
+                            {
+                                graphics.DrawLine(Pens.Black, x * CellSize + CellSize, y * CellSize, x * CellSize + CellSize, y * CellSize + CellSize);
+                            }
+                        }
+
+                    }
                 }
             }
-            return bitmap;
+            return (Bitmap)_mazeBitmap.Clone();
         }
-
-
     }
 }
