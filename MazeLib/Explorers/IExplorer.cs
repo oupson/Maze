@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Drawing;
 
-namespace MazeLib
+namespace MazeLib.Explorers
+
 {
     /// <summary>
     /// Interface for a Maze Explorer.

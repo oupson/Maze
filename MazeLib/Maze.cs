@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MazeLib.Explorers;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 

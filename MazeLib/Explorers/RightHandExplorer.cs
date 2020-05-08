@@ -1,9 +1,8 @@
-﻿using MazeLib;
-using System.Drawing;
+﻿using System.Drawing;
 
-namespace MazeTest.Explorers
+namespace MazeLib.Explorers
 {
-    class RightHandExplorer : IExplorer
+    public class RightHandExplorer : IExplorer
     {
         public Cell CurrentCell { get; set; }
         public int MovementCount { get; set; }

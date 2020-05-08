@@ -2,7 +2,7 @@
   "profiles": {
     "MazeTest": {
       "commandName": "Project",
-      "commandLineArgs": "stats 1"
+      "commandLineArgs": "stats --iter 10"
     }
   }
 }
