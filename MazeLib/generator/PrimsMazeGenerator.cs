@@ -57,8 +57,8 @@ namespace MazeLib.generator
                     else
                     {
                         cell.Topwall = maze[row - 1][column].BottomWall;
-                        cell.Topwall.cells[0] = new Point(row, column);
-                        cell.Topwall.cells[1] = new Point(row - 1, column);
+                        cell.Topwall.cells[0] = new Tuple<int, int>(row, column);
+                        cell.Topwall.cells[1] = new Tuple<int, int>(row - 1, column);
                     }
 
                     cell.BottomWall = new Wall();
@@ -67,8 +67,8 @@ namespace MazeLib.generator
                         cell.BottomWall.isEdge = true;
                     } else
                     {
-                        cell.BottomWall.cells[0] = new Point(row, column);
-                        cell.BottomWall.cells[1] = new Point(row + 1, column);
+                        cell.BottomWall.cells[0] = new Tuple<int, int>(row, column);
+                        cell.BottomWall.cells[1] = new Tuple<int, int>(row + 1, column);
                     }
 
                     if (column == 0)
@@ -81,8 +81,8 @@ namespace MazeLib.generator
                     else
                     {
                         cell.LeftWall = maze[row][column - 1].RightWall;
-                        cell.LeftWall.cells[0] = new Point(row, column);
-                        cell.LeftWall.cells[1] = new Point(row, column - 1);
+                        cell.LeftWall.cells[0] = new Tuple<int, int>(row, column);
+                        cell.LeftWall.cells[1] = new Tuple<int, int>(row, column - 1);
                     }
 
                     cell.RightWall = new Wall();
@@ -91,8 +91,8 @@ namespace MazeLib.generator
                         cell.RightWall.isEdge = true;
                     } else
                     {
-                        cell.RightWall.cells[0] = new Point(row, column);
-                        cell.RightWall.cells[1] = new Point(row, column + 1);
+                        cell.RightWall.cells[0] = new Tuple<int, int>(row, column);
+                        cell.RightWall.cells[1] = new Tuple<int, int>(row, column + 1);
                     }
 
                     maze[row][column] = cell;
@@ -111,8 +111,8 @@ namespace MazeLib.generator
                     wallList.Remove(wall);
                     continue;
                 }
-                var cell0 = maze[wall.cells[0].X][wall.cells[0].Y];
-                var cell1 = maze[wall.cells[1].X][wall.cells[1].Y];
+                var cell0 = maze[wall.cells[0].Item1][wall.cells[0].Item2];
+                var cell1 = maze[wall.cells[1].Item1][wall.cells[1].Item2];
                 if (cell0.PartOfMaze && !cell1.PartOfMaze)
                 {
                     cell1.PartOfMaze = true;

@@ -9,7 +9,7 @@ namespace MazeLib.generator
     {
         public bool isOpen = false;
         public bool isEdge = false;
-        public Point[] cells = new Point[2];
+        public Tuple<int, int>[] cells = new Tuple<int, int>[2];
 
         public static bool operator ==(Wall left, Wall right)
         {
