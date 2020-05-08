@@ -56,10 +56,10 @@ namespace MazeLib.Explorers
         {
             graphics.DrawRectangle(
                 ColorPen ?? Pens.Red,
-                CurrentCell.Column * Maze.CellFactorDrawing + Maze.CellFactorDrawing / 10,
-                CurrentCell.Row * Maze.CellFactorDrawing + Maze.CellFactorDrawing / 10,
-                Maze.CellFactorDrawing * 4 / 5,
-                Maze.CellFactorDrawing * 4 / 5
+                CurrentCell.Column * Maze.CellSize + Maze.CellSize / 10,
+                CurrentCell.Row * Maze.CellSize + Maze.CellSize / 10,
+                Maze.CellSize * 4 / 5,
+                Maze.CellSize * 4 / 5
             );
         }
 

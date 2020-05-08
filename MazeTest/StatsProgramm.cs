@@ -7,7 +7,7 @@ namespace MazeTest
 {
     class StatsProgram
     {
-        public static void DoStat(int iterations = 100, FileInfo? name = null)
+        public static void DoStat(int iterations = 100, FileInfo name = null)
         {
 #if DEBUG
             Console.WriteLine("DoStat({0})", iterations);

@@ -10,7 +10,7 @@ namespace MazeLib
         public int Width;
         public int Height;
         public Cell[][] cells;
-        public int CellFactorDrawing = 10;
+        public int CellSize = 10;
 
         public int ExploreTimeout = 100_000;
 
@@ -108,24 +108,24 @@ namespace MazeLib
 
         public Bitmap GenerateBitmap()
         {
-            var bitmap = new Bitmap(Width * CellFactorDrawing, Height * CellFactorDrawing);
+            var bitmap = new Bitmap(Width * CellSize, Height * CellSize);
 
             using (var graphics = Graphics.FromImage(bitmap))
             {
                 graphics.Clear(Color.White);
-                graphics.DrawLine(Pens.Black, 0, 0, Width * CellFactorDrawing, 0);
-                graphics.DrawLine(Pens.Black, 0, 0, 0, Height * CellFactorDrawing);
+                graphics.DrawLine(Pens.Black, 0, 0, Width * CellSize, 0);
+                graphics.DrawLine(Pens.Black, 0, 0, 0, Height * CellSize);
                 for (int y = 0; y < Height; y ++)
                 {
                     for (int x = 0; x < Width; x++)
                     {
                         if (cells[y][x].HasBottomWall)
                         {
-                            graphics.DrawLine(Pens.Black, x * CellFactorDrawing, y * CellFactorDrawing + CellFactorDrawing, x * CellFactorDrawing + CellFactorDrawing, y * CellFactorDrawing + CellFactorDrawing);
+                            graphics.DrawLine(Pens.Black, x * CellSize, y * CellSize + CellSize, x * CellSize + CellSize, y * CellSize + CellSize);
                         }
                         if (cells[y][x].HasRightWall)
                         {
-                            graphics.DrawLine(Pens.Black, x * CellFactorDrawing + CellFactorDrawing, y * CellFactorDrawing, x * CellFactorDrawing + CellFactorDrawing, y * CellFactorDrawing + CellFactorDrawing);
+                            graphics.DrawLine(Pens.Black, x * CellSize + CellSize, y * CellSize, x * CellSize + CellSize, y * CellSize + CellSize);
                         }
                     }
 

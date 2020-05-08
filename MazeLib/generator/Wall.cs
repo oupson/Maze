@@ -23,14 +23,19 @@ namespace MazeLib.generator
 
         public override bool Equals(object obj)
         {
-            if (obj is Wall)
+            if (obj is Wall w)
             {
-                var w = (Wall)obj;
                 return (cells[0] == w.cells[0] && cells[1] == w.cells[1]) || (cells[0] == w.cells[1] && cells[1] == w.cells[0]);
-            } else
+            }
+            else
             {
                 return false;
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return isOpen.GetHashCode() + isEdge.GetHashCode() + cells.GetHashCode();
         }
     }
 }

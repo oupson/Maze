@@ -101,28 +101,28 @@ namespace MazeLib.Explorers
 
         public void RenderPath(Graphics graphics)
         {
-            var explorer = new Bitmap(Maze.CellFactorDrawing, Maze.CellFactorDrawing);
+            var explorer = new Bitmap(Maze.CellSize, Maze.CellSize);
             using (var gr = Graphics.FromImage(explorer))
             {
-                gr.TranslateTransform(Maze.CellFactorDrawing / 2, Maze.CellFactorDrawing / 2);
+                gr.TranslateTransform(Maze.CellSize / 2, Maze.CellSize / 2);
                 gr.RotateTransform(-CurrentOrientation);
-                gr.TranslateTransform(-Maze.CellFactorDrawing / 2, -Maze.CellFactorDrawing / 2);
+                gr.TranslateTransform(-Maze.CellSize / 2, -Maze.CellSize / 2);
                 gr.DrawRectangle(
                     ColorPen ?? Pens.Red,
-                    Maze.CellFactorDrawing / 10,
-                    Maze.CellFactorDrawing / 10,
-                    Maze.CellFactorDrawing - Maze.CellFactorDrawing / 5,
-                    Maze.CellFactorDrawing - Maze.CellFactorDrawing / 5
+                    Maze.CellSize / 10,
+                    Maze.CellSize / 10,
+                    Maze.CellSize - Maze.CellSize / 5,
+                    Maze.CellSize - Maze.CellSize / 5
                 );
                 gr.DrawLine(
                     ColorPen ?? Pens.Red,
-                    Maze.CellFactorDrawing / 2,
-                    Maze.CellFactorDrawing / 10,
-                    Maze.CellFactorDrawing / 2,
-                    Maze.CellFactorDrawing / 2
+                    Maze.CellSize / 2,
+                    Maze.CellSize / 10,
+                    Maze.CellSize / 2,
+                    Maze.CellSize / 2
                 );
             }
-            graphics.DrawImage(explorer, CurrentCell.Column * Maze.CellFactorDrawing, CurrentCell.Row * Maze.CellFactorDrawing);
+            graphics.DrawImage(explorer, CurrentCell.Column * Maze.CellSize, CurrentCell.Row * Maze.CellSize);
         }
 
         public void Setup(Maze maze, Cell startingCell)
